@@ -31,3 +31,10 @@ class TurnRightState(TurnState):
         if not self.is_finished(x, y, theta, point, direction):
             return (1.0, -1.0)
         return (0.0, 0.0)
+
+def shortest_turn_state(world_map:Map, current_direction:Direction, target_direction:Direction):
+    difference = (target_direction.angle - current_direction.angle + math.pi) % (2*math.pi) - math.pi
+    if difference > 0:
+        return TurnLeftState(world_map, target_direction)
+    else:
+        return TurnRightState(world_map, target_direction)
