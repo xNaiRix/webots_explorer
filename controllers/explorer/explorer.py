@@ -26,6 +26,7 @@ class RobotController:
 
     def run(self):
         while True:
+            sensor_values = [sensor_ps.get_value() for sensor_ps in self.robot.sensors_ps]
             left_enc_pos = self.robot.left_encoder.get_value()
             right_enc_pos = self.robot.right_encoder.get_value()
             self.odometry.update(left_enc_pos, right_enc_pos, self.dt)
