@@ -7,7 +7,7 @@ import sys
 import os
 import csv
 import time
-from constants import CELL_SIDE
+from constants import CELL_SIDE, ROBOT_CELL_RADIUS
 
 # Добавляем путь к модулям
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -23,8 +23,8 @@ class RobotController:
         self.robot = Robot()
         self.__init_triggers__()
         self.odometry = Odometry(start_x=100.0, start_y=100.0)
-        self.map = Map(self.robot)
-        self.fsm = FSMHandler(self.robot, self.map)
+        self.map = Map(ROBOT_CELL_RADIUS)
+        self.fsm = FSMHandler(self.map)
         self.dt = self.robot.basic_time_step / 1000.0
     
     def __init_triggers__(self):
@@ -90,15 +90,23 @@ class RobotController:
         ])
 
     def run(self):
-        while True:
-            left_enc_pos = self.robot.left_encoder.get_value()
-            right_enc_pos = self.robot.right_encoder.get_value()
+        step = 0
+        while self.robot.step():
+            step += 1
+            time = self.robot.get_time()
 
-            self.odometry.update(left_enc_pos, right_enc_pos, self.dt)
-            x, y, theta = self.odometry.position
-            point = MapPoint.from_float_coords(x, y)
-            direction = Direction.from_angle(theta)
+            self.mainloop(step, time)
 
+    def mainloop(self, step:int, time:float):
+        left_enc_pos = self.robot.left_encoder.get_value()
+        right_enc_pos = self.robot.right_encoder.get_value()
+
+        self.odometry.update(left_enc_pos, right_enc_pos, self.dt)
+        x, y, theta = self.odometry.position
+        point = MapPoint.from_float_coords(x, y)
+        direction = Direction.from_angle(theta)
+
+        if point.distance_to_float_coords(x, y) < CELL_SIDE / 4:
             for dx, dy, trigger in (
                 (1, -3, self.far_ps0),
                 (0, -3, self.far_ps0_7),
@@ -124,6 +132,11 @@ class RobotController:
                     self.map.set_wall(viewed_point)
                 else:
                     self.map.set_empty(viewed_point)
+        
+        left_velocity, right_velocity = self.fsm.tick()
+
+        self.robot.set_left_velocity(left_velocity)
+        self.robot.set_right_velocity(right_velocity)
                 
 
 
