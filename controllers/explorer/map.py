@@ -12,10 +12,25 @@ class MapPoint:
         self.x = x
         self.y = y
         self.direction = direction
+
     def add_relative(self, dx, dy)->"MapPoint":#dx, dy - координаты относительно направления
-        if self.direction == Direction.N:
-            pass
-        pass#TODO
+        new_point = MapPoint(self.x, self.y, self.direction)
+        match self.direction:
+            case Direction.N:
+                new_point.x +=  dx
+                new_point.y +=  dy
+            case Direction.E:
+                new_point.x += -dy
+                new_point.y +=  dx
+            case Direction.W:
+                new_point.x +=  dy
+                new_point.y += -dx
+            case Direction.S:
+                new_point.x += -dx
+                new_point.y += -dy
+            
+        return new_point        
+        
 
 class Cell:
     def __init__(self):
@@ -75,9 +90,7 @@ class Map:
         return self._odd_robot_can_be_placed(pos)
     
 
-    def is_interesting(
-            self, pos:MapPoint
-        )->bool:
+    def is_interesting(self, pos:MapPoint)->bool:
         if not self.robot_can_be_placed(pos):
             return False
         h = [self.is_unknown((x,y)) for x in range() for y in range()]#TODO
