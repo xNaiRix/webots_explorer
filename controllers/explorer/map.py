@@ -153,6 +153,17 @@ class Map:
                for dy in [-self.robot_cell_radius - 2]]
         return any(h)
     
+    def print(self):
+        for i in range(self.cell_width):
+            for j in range(70,130):#self.cell_height):
+                cell = self.cells[i][j]
+                if cell.unknown:
+                    print("?", end=" ")
+                elif cell.empty:
+                    print(".", end=" ")
+                else:
+                    print("#", end=" ")
+            print()
         
 
         
