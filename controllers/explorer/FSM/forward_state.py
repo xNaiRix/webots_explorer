@@ -11,7 +11,7 @@ class ForwardState(State):
         self.target_point = target_point
         self.was_finished = False
 
-    def _difference(self, x:float, y:float, point:MapPoint, direction:Direction):
+    def _difference(self, x:float, y:float, point:MapPoint, direction:Direction) -> float:
         match direction:
             case Direction.N:
                 if self.target_point.cell_x == point.cell_x:
