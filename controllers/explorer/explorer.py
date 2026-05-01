@@ -134,7 +134,7 @@ class RobotController:
                 else:
                     self.map.set_empty(viewed_point)
         
-        left_velocity, right_velocity = self.fsm.tick()
+        left_velocity, right_velocity = self.fsm.tick(x,y,theta,point,direction)
 
         self.robot.set_left_velocity(left_velocity)
         self.robot.set_right_velocity(right_velocity)

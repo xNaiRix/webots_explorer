@@ -89,14 +89,14 @@ class Map:
             self.cells.append([Cell() for __ in range(self.cell_height)])
             
     def set_wall(self, pos:MapPoint):
-        if 0<= pos.x < self.cell_width and\
-           0<= pos.y < self.cell_height:
+        if 0<= pos.cell_x < self.cell_width and\
+           0<= pos.cell_y < self.cell_height:
             self.cells[pos.cell_x][pos.cell_y].unknown = False
             self.cells[pos.cell_x][pos.cell_y].empty = False
 
     def set_empty(self, pos:MapPoint):
-        if 0<= pos.x < self.cell_width and\
-           0<= pos.y < self.cell_height:
+        if 0<= pos.cell_x < self.cell_width and\
+           0<= pos.cell_y < self.cell_height:
            self.cells[pos.cell_x][pos.cell_y].unknown = False
            self.cells[pos.cell_x][pos.cell_y].empty = True
 
@@ -117,9 +117,9 @@ class Map:
     def _odd_robot_can_be_placed(self, pos:MapPoint)->bool|None:#None если черт знает
         i, j = pos.cell_x, pos.cell_y
         r = self.robot_cell_radius
-        h = [self.is_empty((x,y)) for x in range(i-r, i+r+1)
+        h = [self.is_empty(MapPoint(x,y)) for x in range(i-r, i+r+1)
                 for y in range(j-r-1, j+r+2)]
-        h += [self.is_empty((x,y)) for x in (i-r-1, i+r+1)
+        h += [self.is_empty(MapPoint(x,y)) for x in (i-r-1, i+r+1)
                 for y in range(j-r, j+r+1)]
         return all(h)
     
