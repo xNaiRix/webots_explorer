@@ -43,6 +43,12 @@ class MapPoint:
         self.cell_x = cell_x
         self.cell_y = cell_y
 
+    def __hash__(self):
+        return hash((self.cell_x, self.cell_y))
+    
+    def __eq__(self, other:"MapPoint"):
+        return self.cell_x == other.cell_x \
+            and self.cell_y == other.cell_y
     @staticmethod
     def from_float_coords(x:float, y:float) -> "MapPoint":
         return MapPoint(round(x / CELL_SIDE), round(y / CELL_SIDE))

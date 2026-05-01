@@ -20,7 +20,7 @@ from map import Direction, MapPoint, Map
 
 class RobotController:
     def __init__(self):
-        self.robot = Robot()
+        self.robot:Robot = Robot()
         self.__init_triggers__()
         start_x = 100.0
         start_y = 100.0
