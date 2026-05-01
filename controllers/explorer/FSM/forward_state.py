@@ -39,7 +39,7 @@ class ForwardState(State):
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
         if self._difference(x, y, point, direction) > 0:
-            return (1.0, 1.0)
+            return (10.0, 10.0)
         if self._difference(x, y, point, direction) <= -EPS:
-            return (-1.0, -1.0)
+            return (-10.0, -10.0)
         return (0.0, 0.0)
