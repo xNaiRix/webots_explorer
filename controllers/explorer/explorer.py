@@ -26,9 +26,9 @@ class RobotController:
         start_y = 100.0
         self.odometry = Odometry(start_x=start_x, start_y=start_y)
         self.map = Map(ROBOT_CELL_RADIUS)
-        for dx in range(-2, 3):
-            for dy in range(-2, 3):
-                if abs(dx) != 2 or abs(dy) != 2:
+        for dx in range(-4, 5):
+            for dy in range(-4, 5):
+                if abs(dx) != 4 or abs(dy) != 4:
                     self.map.set_empty(MapPoint(int(start_x) + dx, int(start_y) + dy))
         self.fsm = FSMHandler(self.map)
         self.dt = self.robot.basic_time_step / 1000.0
