@@ -29,7 +29,7 @@ class WheelMotor(Device):
         #TODO
 
     def set_velocity(self, speed_rad:float):
-        pass#TODO
+        self.current_speed += (speed_rad - self.current_speed)
 
 
 
@@ -44,14 +44,14 @@ class Sensor(ABC, Device):
     
     
 
-class Encoder(Device):
+class Encoder(Sensor):
     def init(self):
         pass
 
 
-class SensorPS(Device):#передается список пс'ов с их нормализованными весами
+class SensorPS(Sensor):#передается список пс'ов с их нормализованными весами
     def init(self):
-        pass#TODO
+        pass
 
 
 class SchmidtTrigger:
