@@ -9,28 +9,30 @@ class Direction(str, Enum):
     E = "EAST"#
     W = "WEST"#
 
-class MapPoint:
-    def __init__(self, cell_x, cell_y, direction:Direction):#positive Это вправо и вниз
-        self.cell_x = cell_x
-        self.cell_y = cell_y
-        self.direction = direction
-
     @staticmethod
-    def from_float_coords(x:float, y:float, theta:float) -> "MapPoint":
+    def from_angle(theta:float) -> "Direction":
         direction = [
-            Direction.N,
             Direction.E,
+            Direction.N,
             Direction.W,
             Direction.S
-        ][theta / (math.pi / 2) % 4]
-        return MapPoint(round(x / CELL_SIDE), round(y / CELL_SIDE), direction)
+        ][round(theta / (math.pi/2)) % 4]
+
+class MapPoint:
+    def __init__(self, cell_x, cell_y):#positive Это вправо и вниз
+        self.cell_x = cell_x
+        self.cell_y = cell_y
+
+    @staticmethod
+    def from_float_coords(x:float, y:float) -> "MapPoint":
+        return MapPoint(round(x / CELL_SIDE), round(y / CELL_SIDE))
     
-    def distance_to_float_coords(self, x:float, y:float, theta:float) -> float:
+    def distance_to_float_coords(self, x:float, y:float) -> float:
         return math.sqrt((self.cell_x * CELL_SIDE - x) ** 2 + (self.cell_y * CELL_SIDE - y) ** 2)
 
-    def add_relative(self, dx, dy)->"MapPoint":#dx, dy - координаты относительно направления
-        new_point = MapPoint(self.x, self.y, self.direction)
-        match self.direction:
+    def add_relative(self, dx:int, dy:int, direction:Direction)->"MapPoint":#dx, dy - координаты относительно направления
+        new_point = MapPoint(self.x, self.y)
+        match direction:
             case Direction.N:
                 new_point.x +=  dx
                 new_point.y +=  dy
@@ -105,13 +107,13 @@ class Map:
         return self._odd_robot_can_be_placed(pos)
     
 
-    def is_interesting(self, pos:MapPoint)->bool:
+    def is_interesting(self, pos:MapPoint, direction:Direction)->bool:
         if not self.robot_can_be_placed(pos):
             return False
-        h = [self.is_unknown(pos.add_relative(dx,dy)) 
+        h = [self.is_unknown(pos.add_relative(dx,dy,direction)) 
              for dx in range(-self.robot_cell_radius-2,self.robot_cell_radius+3)
                for dy in [-self.robot_cell_radius - 1]]
-        h += [self.is_unknown(pos.add_relative(dx,dy)) 
+        h += [self.is_unknown(pos.add_relative(dx,dy,direction)) 
               for dx in [ -self.robot_cell_radius - 2,
                           -self.robot_cell_radius - 1,
                           self.robot_cell_radius + 1,
@@ -119,7 +121,7 @@ class Map:
                           ]
                for dy in range(-self.robot_cell_radius, 1)]
         
-        h += [self.is_unknown(pos.add_relative(dx,dy)) 
+        h += [self.is_unknown(pos.add_relative(dx,dy,direction)) 
               for dx in range(-self.robot_cell_radius,self.robot_cell_radius+1)
                for dy in [-self.robot_cell_radius - 2]]
         return any(h)

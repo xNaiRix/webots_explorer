@@ -63,8 +63,8 @@ class SchmidtTrigger:
         self.was_detected = False
     
     def update(self):
-        values = [sensor_ps.get_value() for sensor_ps in self.sensor_ps_list]
-        mean_value = sum(values) / len(values)
+        values = [weight * sensor_ps.get_value() for sensor_ps, weight in self.sensor_ps_list]
+        mean_value = sum(values)
         if mean_value > self.upper_threshold:
             self.was_detected = True
         if mean_value < self.lower_threshold:

@@ -1,12 +1,9 @@
 import math
+from constants import ROBOT_WHEEL_BASE, ROBOT_WHEEL_RADIUS
 
 
 class Odometry:
     def __init__(self, start_x=0.0, start_y=0.0, start_theta=0.0):
-        # Параметры робота
-        self.WHEEL_RADIUS = 20.5 # мм
-        self.WHEEL_BASE = 52 # мм
-        
         # Текущая поза
         self.x = start_x
         self.y = start_y
@@ -18,8 +15,8 @@ class Odometry:
         
     def update(self, left_enc_pos, right_pos, dt):
         # Вычисляем пройденное расстояние каждым колесом
-        delta_left = (left_enc_pos - self.prev_enc_left) * self.WHEEL_RADIUS
-        delta_right = (right_pos - self.prev_enc_right) * self.WHEEL_RADIUS
+        delta_left = (left_enc_pos - self.prev_enc_left) * ROBOT_WHEEL_RADIUS
+        delta_right = (right_pos - self.prev_enc_right) * ROBOT_WHEEL_RADIUS
         
         # Сохраняем для следующего шага
         self.prev_left_pos = left_enc_pos
@@ -27,7 +24,7 @@ class Odometry:
         
         # Линейное перемещение и поворот
         delta_distance = (delta_left + delta_right) / 2.0
-        delta_theta = (delta_right - delta_left) / self.WHEEL_BASE
+        delta_theta = (delta_right - delta_left) / ROBOT_WHEEL_BASE
         
         # Обновляем пройденное расстояние
         self.distance_traveled += abs(delta_distance)

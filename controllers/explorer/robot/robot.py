@@ -7,8 +7,6 @@ class Robot:
     def __init__(self):
         self.robot = weBots_Robot()
         self.basic_time_step = self.robot.getBasicTimeStep()
-        self.width = 70 #мм
-        self.wheel_radius = 20.5 #мм
 
         self.__left_motor = WheelMotor(
             self.robot.getDevice,
