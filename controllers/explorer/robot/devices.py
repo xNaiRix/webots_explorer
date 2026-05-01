@@ -53,8 +53,24 @@ class SensorPS(Device):#передается список пс'ов с их но
     def init(self):
         pass#TODO
 
-    def wall_detected(self, lower_threshold, upper_threshold):
-        #TODO: по принципу триггера шмидта
-        pass
 
-        
+class SchmidtTrigger:
+    def __init__(self, lower_threshold:float, upper_threshold:float,
+                 sensor_ps_list):
+        self.lower_threshold = lower_threshold
+        self.upper_threshold = upper_threshold
+        self.sensor_ps_list = sensor_ps_list
+        self.was_detected = False
+    
+    def update(self):
+        values = [sensor_ps.get_value() for sensor_ps in self.sensor_ps_list]
+        mean_value = sum(values) / len(values)
+        if mean_value > self.upper_threshold:
+            self.was_detected = True
+        if mean_value < self.lower_threshold:
+            self.was_detected = False
+    
+    @property
+    def detected(self):
+        self.update()
+        return self.was_detected

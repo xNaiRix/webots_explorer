@@ -14,8 +14,9 @@ class MapPoint:
         self.cell_x = cell_x
         self.cell_y = cell_y
         self.direction = direction
+
     @staticmethod
-    def from_float_coords(x:float, y:float, theta:float) -> MapPoint:
+    def from_float_coords(x:float, y:float, theta:float) -> "MapPoint":
         direction = [
             Direction.N,
             Direction.E,
