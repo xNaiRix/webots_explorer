@@ -25,7 +25,8 @@ class Direction(str, Enum):
             Direction.N,
             Direction.W,
             Direction.S
-        ][round(theta / (math.pi/2)) % 4]
+        ]
+        return direction[round(theta / (math.pi/2)) % 4]
 
     def get_neighboring(self)->Tuple["Direction", "Direction"]:
         match self:
