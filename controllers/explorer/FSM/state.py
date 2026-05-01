@@ -10,7 +10,6 @@ class State(ABC):
     def tick(self, x:float, y:float, theta, point:MapPoint, direction:Direction):
         pass
 
-    @property
     @abstractmethod
-    def finished(self) -> bool:
+    def is_finished(self, x:float, y:float, theta, point:MapPoint, direction:Direction) -> bool:
         pass
