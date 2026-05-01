@@ -11,15 +11,23 @@ class TurnState(State):
         self.target_direction = target_direction
         self.was_finished = False
 
-    @property
     def _difference(self, theta):
-        return (self.target_direction - theta + math.pi) % (2*math.pi) - math.pi
+        return (self.target_direction.angle - theta + math.pi) % (2*math.pi) - math.pi
 
 class TurnLeftState(TurnState):
-    def tick(self, x:float, y:float, theta, point:MapPoint, direction:Direction):
-        if -EPS < self._difference < 0:
-            self.was_finished = True
-            return 
+    def is_finished(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> bool:
+        return -EPS < self._difference(theta) <= 0
+
+    def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
+        if not self.is_finished(x, y, theta, point, direction):
+            return (-1.0, 1.0)
+        return (0.0, 0.0)
 
 class TurnRightState(TurnState):
-    pass
+    def is_finished(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> bool:
+        return 0 <= self._difference(theta) < EPS
+
+    def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
+        if not self.is_finished(x, y, theta, point, direction):
+            return (1.0, -1.0)
+        return (0.0, 0.0)

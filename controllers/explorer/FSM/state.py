@@ -7,9 +7,9 @@ class State(ABC):
         self.world_map = world_map
 
     @abstractmethod
-    def tick(self, x:float, y:float, theta, point:MapPoint, direction:Direction):
+    def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
         pass
 
     @abstractmethod
-    def is_finished(self, x:float, y:float, theta, point:MapPoint, direction:Direction) -> bool:
+    def is_finished(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> bool:
         pass
