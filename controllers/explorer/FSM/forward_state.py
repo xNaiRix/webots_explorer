@@ -7,7 +7,7 @@ EPS = 0.1
 
 class ForwardState(State):
     def __init__(self, world_map:Map, target_point:MapPoint):
-        super(world_map)
+        super().__init__(world_map)
         self.target_point = target_point
         self.was_finished = False
 
