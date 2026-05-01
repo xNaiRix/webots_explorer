@@ -22,7 +22,7 @@ class FSMHandler:
             route = self.router.find_route_to_intresting(Node(point, direction))
         
             if route is None:
-                exit(0)
+                return None
             
             index = 0
             while index < len(route) - 1:

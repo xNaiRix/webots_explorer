@@ -102,7 +102,10 @@ class RobotController:
             step += 1
             time = self.robot.get_time()
 
-            self.mainloop(step, time)
+            result = self.mainloop(step, time)
+            if not result: break
+        print("EEEND")
+        self.map.print()
 
     def mainloop(self, step:int, time:float):
         left_enc_pos = self.robot.left_encoder.get_value()
@@ -140,14 +143,16 @@ class RobotController:
                 else:
                     self.map.set_empty(viewed_point)
         
-        left_velocity, right_velocity = self.fsm.tick(x,y,theta,point,direction)
+        t = self.fsm.tick(x,y,theta,point,direction)
+        if t is None: return False
+        left_velocity, right_velocity = t
 
         self.robot.set_left_velocity(left_velocity)
         self.robot.set_right_velocity(right_velocity)
 
         self.logger.log_odometry(step, time, x, y, theta)
         self.logger.log_sensors(step, time, self.robot.sensors_ps)
-                
+        return True
 
 
 if __name__ == '__main__':
