@@ -36,6 +36,12 @@ class Robot:
                 ) 
             for i in range(8)]
         
+    def step(self) -> bool:
+        return self.robot.step(self.basic_time_step) != -1
+
+    def get_time(self) -> float:
+        return self.robot.getTime()
+
 
     def set_right_velocity(self, speed):#speed - мм
         pass
