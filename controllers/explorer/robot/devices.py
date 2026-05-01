@@ -53,8 +53,8 @@ class SensorPS(Device):#передается список пс'ов с их но
     def init(self):
         pass#TODO
 
-    def wall_detected(self, lower_threshold, upper_threshold):
-        #TODO: по принципу триггера шмидта
-        pass
+    # def wall_detected(self, lower_threshold, upper_threshold):
+    #     #TODO: по принципу триггера шмидта
+    #     pass
 
         
