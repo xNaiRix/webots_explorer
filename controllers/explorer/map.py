@@ -40,20 +40,20 @@ class MapPoint:
         return math.sqrt((self.cell_x * CELL_SIDE - x) ** 2 + (self.cell_y * CELL_SIDE - y) ** 2)
 
     def add_relative(self, dx:int, dy:int, direction:Direction)->"MapPoint":#dx, dy - координаты относительно направления
-        new_point = MapPoint(self.x, self.y)
+        new_point = MapPoint(self.cell_x, self.cell_y)
         match direction:
             case Direction.N:
-                new_point.x +=  dx
-                new_point.y +=  dy
+                new_point.cell_x +=  dx
+                new_point.cell_y +=  dy
             case Direction.E:
-                new_point.x +=  dy
-                new_point.y += -dx
+                new_point.cell_x +=  dy
+                new_point.cell_y += -dx
             case Direction.W:
-                new_point.x += -dy
-                new_point.y += dx
+                new_point.cell_x += -dy
+                new_point.cell_y += dx
             case Direction.S:
-                new_point.x += -dx
-                new_point.y += -dy
+                new_point.cell_x += -dx
+                new_point.cell_y += -dy
             
         return new_point
 
@@ -74,31 +74,31 @@ class Map:
     def set_wall(self, pos:MapPoint):
         if 0<= pos.x < self.cell_width and\
            0<= pos.y < self.cell_height:
-            self.cells[pos.x][pos.y].unknown = False
-            self.cells[pos.x][pos.y].empty = False
+            self.cells[pos.cell_x][pos.cell_y].unknown = False
+            self.cells[pos.cell_x][pos.cell_y].empty = False
 
     def set_empty(self, pos:MapPoint):
         if 0<= pos.x < self.cell_width and\
            0<= pos.y < self.cell_height:
-           self.cells[pos.x][pos.y].unknown = False
-           self.cells[pos.x][pos.y].empty = True
+           self.cells[pos.cell_x][pos.cell_y].unknown = False
+           self.cells[pos.cell_x][pos.cell_y].empty = True
 
     def is_empty(self, pos:MapPoint)->bool|None:#None если черт знает
-        if pos.x[0] < 0 or pos.y < 0:
+        if pos.cell_x < 0 or pos.cell_y < 0:
             return False
-        if pos.x >= self.cell_width or pos.y >= self.cell_height:
+        if pos.cell_x >= self.cell_width or pos.cell_y >= self.cell_height:
             return False
-        return self.cells[pos.x][pos.y].empty
+        return self.cells[pos.cell_x][pos.cell_y].empty
     
     def is_unknown(self, pos:MapPoint)->bool:
-        if pos[0] < 0 or pos[1] < 0:
+        if pos.cell_x < 0 or pos.cell_y < 0:
             return False
-        if pos[0] >= self.cell_width or pos[1] >= self.cell_height:
+        if pos.cell_x >= self.cell_width or pos.cell_y >= self.cell_height:
             return False
-        return self.cells[pos[0]][pos[1]].unknown
+        return self.cells[pos.cell_x][pos.cell_y].unknown
 
     def _odd_robot_can_be_placed(self, pos:MapPoint)->bool|None:#None если черт знает
-        i, j = pos.x, pos.y
+        i, j = pos.cell_x, pos.cell_y
         r = self.robot_cell_radius
         h = [self.is_empty((x,y)) for x in range(i-r, i+r+1)
                 for y in range(j-r-1, j+r+2)]
@@ -107,11 +107,11 @@ class Map:
         return all(h)
     
     def robot_can_be_placed(self, pos:MapPoint)->bool|None:#None если черт знает
-        if pos.x < 0 or pos.y < 0:
+        if pos.cell_x < 0 or pos.cell_y < 0:
             return False
-        if pos.x >= self.cell_width or pos.y >= self.cell_height:
+        if pos.cell_x >= self.cell_width or pos.cell_y >= self.cell_height:
             return False
-        if self.cells[pos.x][pos.y].unknown:
+        if self.cells[pos.cell_x][pos.cell_y].unknown:
             return None
         return self._odd_robot_can_be_placed(pos)
     
