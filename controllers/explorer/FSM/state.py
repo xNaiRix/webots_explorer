@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Tuple
 from map import Direction, MapPoint, Map
 
 
@@ -7,7 +8,7 @@ class State(ABC):
         self.world_map = world_map
 
     @abstractmethod
-    def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
+    def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         pass
 
     @abstractmethod
