@@ -164,6 +164,18 @@ class Map:
                 else:
                     print("#", end=" ")
             print()
+    def draw_map(self):
+        matrix = [["?" for _ in range(self.cell_width)] for _ in range(self.cell_height)]
+        for i in range(self.cell_width):
+            for j in range(self.cell_height):
+                cell = self.cells[i][j]
+                if cell.unknown:
+                    matrix[i][j] = "?"
+                elif cell.empty:
+                    matrix[i][j] = "."
+                else:
+                    matrix[i][j] = "#"
+        return matrix
         
 
         
