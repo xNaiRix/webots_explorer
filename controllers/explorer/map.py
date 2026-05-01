@@ -4,17 +4,16 @@ import math
 from constants import CELL_SIDE
 
 class Direction(str, Enum):
-    N = "NORTH"
-    S = "SOUTH"
-    E = "EAST"
-    W = "WEST"
+    N = "NORTH"#
+    S = "SOUTH"#
+    E = "EAST"#
+    W = "WEST"#
 
 class MapPoint:
     def __init__(self, cell_x, cell_y, direction:Direction):#positive Это вправо и вниз
         self.cell_x = cell_x
         self.cell_y = cell_y
         self.direction = direction
-    
     @staticmethod
     def from_float_coords(x:float, y:float, theta:float) -> MapPoint:
         direction = [
@@ -28,9 +27,23 @@ class MapPoint:
     def distance_to_float_coords(self, x:float, y:float, theta:float) -> float:
         return math.sqrt((self.cell_x * CELL_SIDE - x) ** 2 + (self.cell_y * CELL_SIDE - y) ** 2)
 
-    def add_relative(self, dx:int, dy:int) -> MapPoint:
-        # Если вдруг тебе страшно, я могу сам эту функцию написать
-        pass
+    def add_relative(self, dx, dy)->"MapPoint":#dx, dy - координаты относительно направления
+        new_point = MapPoint(self.x, self.y, self.direction)
+        match self.direction:
+            case Direction.N:
+                new_point.x +=  dx
+                new_point.y +=  dy
+            case Direction.E:
+                new_point.x += -dy
+                new_point.y +=  dx
+            case Direction.W:
+                new_point.x +=  dy
+                new_point.y += -dx
+            case Direction.S:
+                new_point.x += -dx
+                new_point.y += -dy
+            
+        return new_point
 
 class Cell:
     def __init__(self):
@@ -90,14 +103,10 @@ class Map:
         return self._odd_robot_can_be_placed(pos)
     
 
-    def is_interesting(
-            self, pos:MapPoint,
-            direction:Direction
-        )->bool:
+    def is_interesting(self, pos:MapPoint)->bool:
         if not self.robot_can_be_placed(pos):
             return False
-        i, j = pos
-        h = [self.is_unknown((x,y) for x in range() for y in range())]#TODO
+        h = [self.is_unknown((x,y)) for x in range() for y in range()]#TODO
         
         
 

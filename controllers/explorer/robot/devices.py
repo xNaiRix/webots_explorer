@@ -49,7 +49,7 @@ class Encoder(Device):
         pass
 
 
-class SensorPS(Device):
+class SensorPS(Device):#передается список пс'ов с их нормализованными весами
     def init(self):
         pass#TODO
 
