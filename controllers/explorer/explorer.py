@@ -22,14 +22,14 @@ class RobotController:
     def __init__(self):
         self.robot:Robot = Robot()
         self.__init_triggers__()
-        start_x = 100.0
-        start_y = 100.0
+        start_x = 100 * CELL_SIDE
+        start_y = 100 * CELL_SIDE
         self.odometry = Odometry(start_x=start_x, start_y=start_y)
         self.map = Map(ROBOT_CELL_RADIUS)
-        for dx in range(-4, 5):
-            for dy in range(-4, 5):
-                if abs(dx) != 4 or abs(dy) != 4:
-                    self.map.set_empty(MapPoint(int(start_x) + dx, int(start_y) + dy))
+        for dx in range(-2, 3):
+            for dy in range(-2, 3):
+                if abs(dx) != 2 or abs(dy) != 2:
+                    self.map.set_empty(MapPoint(int(start_x / CELL_SIDE) + dx, int(start_y / CELL_SIDE) + dy))
         self.fsm = FSMHandler(self.map)
         self.dt = self.robot.basic_time_step / 1000.0
         self.logger = Logger()
