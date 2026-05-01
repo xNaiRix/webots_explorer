@@ -21,7 +21,7 @@ class TurnLeftState(TurnState):
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if not self.is_finished(x, y, theta, point, direction):
-            return (-10.0, 10.0)
+            return (-50.0, 50.0)
         return (0.0, 0.0)
 
 class TurnRightState(TurnState):
@@ -30,7 +30,7 @@ class TurnRightState(TurnState):
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if not self.is_finished(x, y, theta, point, direction):
-            return (10.0, -10.0)
+            return (50.0, -50.0)
         return (0.0, 0.0)
 
 def shortest_turn_state(world_map:Map, current_direction:Direction, target_direction:Direction):
