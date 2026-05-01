@@ -17,8 +17,8 @@ class Node:
     
     def get_adj(self) -> List["Node"]:
         return (
-            [(self.point, direction) for direction in self.direction.get_neighboring()]
-            + [(self.point.add_relative(0, 1, self.direction), self.direction)]
+            [Node(self.point, direction) for direction in self.direction.get_neighboring()]
+            + [Node(self.point.add_relative(0, 1, self.direction), self.direction)]
         )
 
 class Router:
@@ -29,7 +29,7 @@ class Router:
         used_nodes = {first_node: None}
         queue = [first_node]
         while queue:
-            node = queue.pop()
+            node = queue.pop(0)
             if self.world_map.is_interesting(node.point, node.direction):
                 break
             for next_node in node.get_adj():
