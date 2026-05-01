@@ -1,6 +1,5 @@
 from controller import Robot as weBots_Robot
 from robot.devices import WheelMotor, Encoder, SensorPS
-from typing import List, Callable
 
 
 class Robot:
@@ -44,9 +43,9 @@ class Robot:
 
 
     def set_right_velocity(self, speed):#speed - мм
-        pass
+        self.__right_motor.set_velocity(speed)##!!
 
     def set_left_velocity(self, speed):#speed - мм
-        pass
+        self.__left_motor.set_velocity(speed)##!!!
 
 
