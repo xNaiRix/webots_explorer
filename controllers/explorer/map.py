@@ -155,7 +155,7 @@ class Map:
     
     def print(self):
         for i in range(self.cell_width):
-            for j in range(self.cell_height):
+            for j in range(70,130):#self.cell_height):
                 cell = self.cells[i][j]
                 if cell.unknown:
                     print("?", end=" ")
