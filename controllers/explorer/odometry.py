@@ -24,14 +24,11 @@ class Odometry:
         
         # Линейное перемещение и поворот
         delta_distance = (delta_left + delta_right) / 2.0
-        delta_theta = (delta_right - delta_left) / ROBOT_WHEEL_BASE
-        
-        # Обновляем пройденное расстояние
-        self.distance_traveled += abs(delta_distance)
+        self.theta += (delta_right - delta_left) / ROBOT_WHEEL_BASE
         
         # Вычисляем изменение позиции
-        delta_x = delta_distance * math.cos(self.theta)
-        delta_y = delta_distance * math.sin(self.theta)
+        self.x += delta_distance * math.cos(self.theta)
+        self.y += delta_distance * math.sin(self.theta)
     
     @property
     def position(self):
