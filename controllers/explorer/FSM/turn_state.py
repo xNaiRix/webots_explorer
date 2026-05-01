@@ -8,7 +8,7 @@ EPS = 0.01
 
 class TurnState(State):
     def __init__(self, world_map:Map, target_direction:Direction):
-        super(world_map)
+        super().__init__(world_map)
         self.target_direction = target_direction
         self.was_finished = False
 
