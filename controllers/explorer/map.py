@@ -1,5 +1,7 @@
 from typing import List, Tuple
 from enum import Enum
+import math
+from constants import CELL_SIDE
 
 class Direction(str, Enum):
     N = "NORTH"#
@@ -8,10 +10,22 @@ class Direction(str, Enum):
     W = "WEST"#
 
 class MapPoint:
-    def __init__(self, x, y, direction:Direction):#positive Это вправо и вниз
-        self.x = x
-        self.y = y
+    def __init__(self, cell_x, cell_y, direction:Direction):#positive Это вправо и вниз
+        self.cell_x = cell_x
+        self.cell_y = cell_y
         self.direction = direction
+    @staticmethod
+    def from_float_coords(x:float, y:float, theta:float) -> MapPoint:
+        direction = [
+            Direction.N,
+            Direction.E,
+            Direction.W,
+            Direction.S
+        ][theta / (math.pi / 2) % 4]
+        return MapPoint(round(x / CELL_SIDE), round(y / CELL_SIDE), direction)
+    
+    def distance_to_float_coords(self, x:float, y:float, theta:float) -> float:
+        return math.sqrt((self.cell_x * CELL_SIDE - x) ** 2 + (self.cell_y * CELL_SIDE - y) ** 2)
 
     def add_relative(self, dx, dy)->"MapPoint":#dx, dy - координаты относительно направления
         new_point = MapPoint(self.x, self.y, self.direction)
@@ -29,8 +43,7 @@ class MapPoint:
                 new_point.x += -dx
                 new_point.y += -dy
             
-        return new_point        
-        
+        return new_point
 
 class Cell:
     def __init__(self):
