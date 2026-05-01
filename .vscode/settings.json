@@ -1,0 +1,43 @@
+{
+    // Настройки Python для проекта Webots
+    "python.defaultInterpreterPath": "python",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.analysis.extraPaths": [
+        "D:/programms/Webots/lib/controller/python",
+        "${workspaceFolder}/controllers/explorer"
+    ],
+    "python.autoComplete.extraPaths": [
+        "D:/programms/Webots/lib/controller/python",
+        "${workspaceFolder}/controllers/explorer"
+    ],
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.lintOnSave": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    // Настройки для отладки
+    "python.terminal.executeInFileDir": true,
+    // Настройки для работы с Webots
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/*.pyc": true
+    },
+    // Настройки редактора
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    // Настройки для Windows
+    "terminal.integrated.shell.windows": "cmd.exe",
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "D:/programms/Webots/lib/controller/python;${workspaceFolder}/controllers/explorer;${env:PYTHONPATH}"
+    },
+    "python-envs.defaultEnvManager": "ms-python.python:system"
+}

@@ -1,0 +1,136 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Проверка импортов",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/test_imports.py"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Установка зависимостей",
+            "type": "shell",
+            "command": "pip",
+            "args": [
+                "install",
+                "-r",
+                "${workspaceFolder}/requirements.txt"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Запуск симуляции Webots",
+            "type": "shell",
+            "command": "webots",
+            "args": [
+                "${workspaceFolder}/worlds/explorer_world.wbt"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "windows": {
+                "command": "D:/programms/Webots/msys64/mingw64/bin/webots.exe",
+                "args": [
+                    "${workspaceFolder}/worlds/explorer_world.wbt"
+                ]
+            }
+        },
+        {
+            "label": "Запуск контроллера вручную",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/controllers/explorer/explorer.py"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": [],
+            "options": {
+                "env": {
+                    "PYTHONPATH": "D:/programms/Webots/lib/controller/python;${workspaceFolder}/controllers/explorer;${env:PYTHONPATH}"
+                }
+            }
+        },
+        {
+            "label": "Проверка синтаксиса",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-m",
+                "py_compile",
+                "${workspaceFolder}/controllers/explorer/explorer.py"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "never",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Запуск всех тестов",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-m",
+                "pytest",
+                "${workspaceFolder}",
+                "-v"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
