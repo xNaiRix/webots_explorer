@@ -1,6 +1,6 @@
 from controller import Robot as weBots_Robot
 from robot.devices import WheelMotor, Encoder, SensorPS
-
+import constants
 
 class Robot:
     def __init__(self):
@@ -43,9 +43,9 @@ class Robot:
 
 
     def set_right_velocity(self, speed):#speed - мм
-        self.__right_motor.set_velocity(speed)##!!
+        self.__right_motor.set_velocity(speed/constants.ROBOT_WHEEL_RADIUS)
 
     def set_left_velocity(self, speed):#speed - мм
-        self.__left_motor.set_velocity(speed)##!!!
+        self.__left_motor.set_velocity(speed/constants.ROBOT_WHEEL_RADIUS)
 
 
