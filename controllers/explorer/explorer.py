@@ -2,17 +2,16 @@
 Главный контроллер робота-разведчика.
 Интегрирует все модули: датчики, одометрию, навигацию и FSM.
 """
+print(__file__)
 from robot.robot import Robot
+
 import sys
 import os
-import csv
-import time
 from constants import CELL_SIDE, ROBOT_CELL_RADIUS
 
 # Добавляем путь к модулям
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from robot import Robot
 from robot.devices import SchmidtTrigger
 from odometry import Odometry
 from FSM.fsm import FSMHandler

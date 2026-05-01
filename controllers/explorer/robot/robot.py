@@ -5,7 +5,7 @@ import constants
 class Robot:
     def __init__(self):
         self.robot = weBots_Robot()
-        self.basic_time_step = self.robot.getBasicTimeStep()
+        self.basic_time_step = int(self.robot.getBasicTimeStep())
 
         self.__left_motor = WheelMotor(
             self.robot.getDevice,

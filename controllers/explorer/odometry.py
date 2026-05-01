@@ -15,8 +15,8 @@ class Odometry:
         
     def update(self, left_enc_pos, right_pos, dt):
         # Вычисляем пройденное расстояние каждым колесом
-        delta_left = (left_enc_pos - self.prev_enc_left) * ROBOT_WHEEL_RADIUS
-        delta_right = (right_pos - self.prev_enc_right) * ROBOT_WHEEL_RADIUS
+        delta_left = (left_enc_pos - self.prev_left_pos) * ROBOT_WHEEL_RADIUS
+        delta_right = (right_pos - self.prev_right_pos) * ROBOT_WHEEL_RADIUS
         
         # Сохраняем для следующего шага
         self.prev_left_pos = left_enc_pos

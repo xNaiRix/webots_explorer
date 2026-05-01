@@ -39,8 +39,8 @@ class WheelMotor(Device):
         self.device.setVelocity(self.current_speed)
 
 
-class Sensor(ABC, Device):
-    def __init__(self, timestep:float, *args):
+class Sensor(Device):
+    def __init__(self, timestep:int, *args):
         super().__init__(*args)
         self.device:webots_Sensor = self.device
         self.device.enable(timestep)

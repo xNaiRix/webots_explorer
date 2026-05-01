@@ -1,5 +1,5 @@
 import math
-from state import State
+from FSM.state import State
 from map import Direction, MapPoint, Map
 from constants import CELL_SIDE
 
