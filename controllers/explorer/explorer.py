@@ -22,7 +22,7 @@ class RobotController:
     def __init__(self):
         self.robot = Robot()
         self.__init_triggers__()
-        self.odometry = Odometry()
+        self.odometry = Odometry(start_x=100.0, start_y=100.0)
         self.map = Map(self.robot)
         self.fsm = FSMHandler(self.robot, self.map)
         self.dt = self.robot.basic_time_step / 1000.0

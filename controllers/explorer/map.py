@@ -9,6 +9,15 @@ class Direction(str, Enum):
     E = "EAST"#
     W = "WEST"#
 
+    @property
+    def angle(self) -> float:
+        return {
+            Direction.N: math.pi/2,
+            Direction.S: -math.pi/2,
+            Direction.E: 0,
+            Direction.W: math.pi
+        }[self]
+
     @staticmethod
     def from_angle(theta:float) -> "Direction":
         direction = [
@@ -37,11 +46,11 @@ class MapPoint:
                 new_point.x +=  dx
                 new_point.y +=  dy
             case Direction.E:
-                new_point.x += -dy
-                new_point.y +=  dx
-            case Direction.W:
                 new_point.x +=  dy
                 new_point.y += -dx
+            case Direction.W:
+                new_point.x += -dy
+                new_point.y += dx
             case Direction.S:
                 new_point.x += -dx
                 new_point.y += -dy

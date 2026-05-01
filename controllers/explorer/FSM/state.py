@@ -1,0 +1,16 @@
+from abc import ABC, abstractmethod
+from map import Direction, MapPoint, Map
+
+
+class State(ABC):
+    def __init__(self, world_map:Map):
+        self.world_map = world_map
+
+    @abstractmethod
+    def tick(self, x:float, y:float, theta, point:MapPoint, direction:Direction):
+        pass
+
+    @property
+    @abstractmethod
+    def finished(self) -> bool:
+        pass
