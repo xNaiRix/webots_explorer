@@ -4,6 +4,7 @@
 """
 print(__file__)
 from robot.robot import Robot
+from logger import Logger
 
 import sys
 import os
@@ -27,6 +28,7 @@ class RobotController:
         self.map = Map(ROBOT_CELL_RADIUS)
         self.fsm = FSMHandler(self.map)
         self.dt = self.robot.basic_time_step / 1000.0
+        self.logger = Logger()
     
     def __init_triggers__(self):
         self.far_ps0 = SchmidtTrigger(70, 100, [
@@ -138,6 +140,9 @@ class RobotController:
 
         self.robot.set_left_velocity(left_velocity)
         self.robot.set_right_velocity(right_velocity)
+
+        self.logger.log_odometry(step, time, x, y, theta)
+        self.logger.log_sensors(step, time, self.robot.sensors_ps)
                 
 
 
