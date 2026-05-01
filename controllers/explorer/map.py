@@ -2,18 +2,20 @@ from typing import List, Tuple
 from enum import Enum
 
 class Direction(str, Enum):
-    N = "NORTH"
-    S = "SOUTH"
-    E = "EAST"
-    W = "WEST"
+    N = "NORTH"#
+    S = "SOUTH"#
+    E = "EAST"#
+    W = "WEST"#
 
 class MapPoint:
     def __init__(self, x, y, direction:Direction):#positive Это вправо и вниз
         self.x = x
         self.y = y
         self.direction = direction
-    def add_relative(self, dx, dy):
-        pass
+    def add_relative(self, dx, dy)->"MapPoint":#dx, dy - координаты относительно направления
+        if self.direction == Direction.N:
+            pass
+        pass#TODO
 
 class Cell:
     def __init__(self):
@@ -74,13 +76,11 @@ class Map:
     
 
     def is_interesting(
-            self, pos:MapPoint,
-            direction:Direction
+            self, pos:MapPoint
         )->bool:
         if not self.robot_can_be_placed(pos):
             return False
-        i, j = pos
-        h = [self.is_unknown((x,y) for x in range() for y in range())]#TODO
+        h = [self.is_unknown((x,y)) for x in range() for y in range()]#TODO
         
         
 
