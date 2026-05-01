@@ -22,6 +22,7 @@ class Device(ABC):
 class WheelMotor(Device):
     def init(self):
         self.current_speed = 0.
+        self.device.setVelocity(0.)
         self.acceleration = 1.
         self.max_speed = 6.283185307179586
         self.device:webots_Motor = self.device
@@ -29,7 +30,14 @@ class WheelMotor(Device):
         #TODO
 
     def set_velocity(self, speed_rad:float):
-        self.current_speed += (speed_rad - self.current_speed)
+        sgn = 1 if speed_rad > self.current_speed else -1
+        if abs(self.current_speed) > speed_rad:
+            
+            self.current_speed = speed_rad
+
+        self.current_speed += sgn * self.acceleration
+        self.current_speed = max(min(self.current_speed, self.max_speed),
+                                  -self.max_speed)
 
 
 
