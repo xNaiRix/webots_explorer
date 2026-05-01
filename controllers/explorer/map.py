@@ -94,6 +94,7 @@ class Map:
         h += [self.is_empty((x,y)) for x in (i-r-1, i+r+1)
                 for y in range(j-r, j+r+1)]
         return all(h)
+    
     def robot_can_be_placed(self, pos:MapPoint)->bool|None:#None если черт знает
         if pos.x < 0 or pos.y < 0:
             return False
@@ -107,7 +108,24 @@ class Map:
     def is_interesting(self, pos:MapPoint)->bool:
         if not self.robot_can_be_placed(pos):
             return False
-        h = [self.is_unknown((x,y)) for x in range() for y in range()]#TODO
+        h = [self.is_unknown(pos.add_relative(dx,dy)) 
+             for dx in range(-self.robot_cell_radius-2,self.robot_cell_radius+3)
+               for dy in [-self.robot_cell_radius - 1]]
+        h += [self.is_unknown(pos.add_relative(dx,dy)) 
+              for dx in [ -self.robot_cell_radius - 2,
+                          -self.robot_cell_radius - 1,
+                          self.robot_cell_radius + 1,
+                          self.robot_cell_radius + 2
+                          ]
+               for dy in range(-self.robot_cell_radius, 1)]
+        
+        h += [self.is_unknown(pos.add_relative(dx,dy)) 
+              for dx in range(-self.robot_cell_radius,self.robot_cell_radius+1)
+               for dy in [-self.robot_cell_radius - 2]]
+        return any(h)
+    
+        
+
         
         
 
