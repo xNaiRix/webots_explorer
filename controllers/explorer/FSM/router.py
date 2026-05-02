@@ -50,3 +50,12 @@ class Router:
         while used_nodes[best_route[0]] is not None:
             best_route.insert(0, used_nodes[best_route[0]])
         return best_route
+    
+    def heuristic(start_node:Node, end_node:Node) -> int:
+        value = abs(start_node.point.cell_x - end_node.point.cell_x) \
+                + abs(start_node.point.cell_y - end_node.point.cell_y)
+        if start_node.direction in end_node.direction.get_neighboring():
+            value += 1
+        elif start_node.direction != end_node.direction:
+            value += 2
+        return value
