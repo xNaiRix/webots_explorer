@@ -38,8 +38,10 @@ class FSMHandler:
                 if self.get_out_attempts >= MAX_GET_OUT_ATTEMPTS:
                     return None
                 self.get_out_attempts += 1
-                self.plan = [shortest_turn_state(self.world_map, direction,
-                                                 direction.get_neighboring()[0])]
+                self.plan = [
+                    shortest_turn_state(self.world_map, direction, direction.get_opposite()),
+                    ForwardState(self.world_map, point.add_relative(0, -1, direction))
+                ]
             else:
                 index = 0
                 while index < len(route) - 1:

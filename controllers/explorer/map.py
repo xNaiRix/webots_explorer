@@ -28,7 +28,7 @@ class Direction(str, Enum):
         ]
         return direction[round(theta / (math.pi/2)) % 4]
 
-    def get_neighboring(self)->Tuple["Direction", "Direction"]:
+    def get_neighboring(self) -> Tuple["Direction", "Direction"]:
         match self:
             case Direction.N:
                 return Direction.W, Direction.E
@@ -38,6 +38,17 @@ class Direction(str, Enum):
                 return Direction.N, Direction.S
             case Direction.W:
                 return Direction.S, Direction.N
+    
+    def get_opposite(self) -> "Direction":
+        match self:
+            case Direction.N:
+                return Direction.S
+            case Direction.S:
+                return Direction.N
+            case Direction.E:
+                return Direction.W
+            case Direction.W:
+                return Direction.E
 
 class MapPoint:
     def __init__(self, cell_x, cell_y):#positive Это вправо и вниз
