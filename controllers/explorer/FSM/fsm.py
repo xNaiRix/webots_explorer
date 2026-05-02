@@ -12,13 +12,6 @@ class FSMHandler:
         self.world_map = world_map
         self.router = Router(self.world_map)
         self.plan: List[State] = []
-        # self.plan: List[State] = [
-        #     TurnLeftState(self.world_map, Direction.N, 0),
-        #     TurnLeftState(self.world_map, Direction.W, 0),
-        #     TurnLeftState(self.world_map, Direction.S, 0),
-        #     TurnLeftState(self.world_map, Direction.E, 0)] * 17 + [
-        #     ForwardState(self.world_map, MapPoint(120, 100))
-        # ]
     
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if self.plan:
@@ -29,8 +22,8 @@ class FSMHandler:
         if not self.plan:
             if point.distance_to_float_coords(x, y) >= MAX_COORD_ERROR:
                 direction1, direction2 = direction.get_neighboring()
-                route1 = self.router.find_best_route(Node(point, direction1))
-                route2 = self.router.find_best_route(Node(point, direction2))
+                route1 = self.router.best_route_to_intresting(Node(point, direction1))
+                route2 = self.router.best_route_to_intresting(Node(point, direction2))
                 if len(route1) < len(route2):
                     route = route1
                 else:
@@ -38,7 +31,7 @@ class FSMHandler:
                 route.insert(0, Node(point, direction))
                 route.insert(2, route[1])
             else:
-                route = self.router.find_best_route(Node(point, direction))
+                route = self.router.best_route_to_intresting(Node(point, direction))
         
             if route is None:
                 return None

@@ -27,7 +27,7 @@ class Router:
     def __init__(self, world_map:Map):
         self.world_map = world_map
 
-    def find_best_route(self, first_node:Node) -> List[Node] | None:
+    def best_route_to_intresting(self, first_node:Node) -> List[Node] | None:
         priority_queue = {0: [first_node]}
         used_nodes = {first_node: None}
         while priority_queue:

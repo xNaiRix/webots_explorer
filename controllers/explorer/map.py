@@ -120,8 +120,7 @@ class Map:
         r = self.robot_cell_radius
         h = [self.is_empty(MapPoint(x,y)) for x in range(i-r, i+r+1)
                 for y in range(j-r-1, j+r+2)]
-        h += [self.is_empty(MapPoint(x,y)) for x in (i-r-1, i+r+1)
-                for y in range(j-r, j+r+1)]
+        h += [self.is_empty(MapPoint(x,j)) for x in (i-r-1, i+r+1)]
         return all(h)
     
     def robot_can_be_placed(self, pos:MapPoint)->bool|None:#None если черт знает
