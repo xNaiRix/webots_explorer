@@ -3,7 +3,7 @@ from FSM.state import State
 from map import Direction, MapPoint, Map
 from constants import CELL_SIDE
 
-EPS = 0.1
+EPS = 0.5
 
 class ForwardState(State):
     def __init__(self, world_map:Map, target_point:MapPoint):
@@ -35,11 +35,11 @@ class ForwardState(State):
                     return float('inf')
 
     def is_finished(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> bool:
-        return -EPS < self._difference(x, y, point, direction) <= 0
+        return abs(self._difference(x, y, point, direction)) < EPS
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction):
         if self._difference(x, y, point, direction) > 0:
-            return (50.0, 50.0)
-        if self._difference(x, y, point, direction) <= -EPS:
-            return (-50.0, -50.0)
+            return (20.0, 20.0)
+        if self._difference(x, y, point, direction) < 0:
+            return (-10.0, -10.0)
         return (0.0, 0.0)

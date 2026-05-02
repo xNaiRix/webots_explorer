@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Tuple
+from random import randint
 from map import Direction, MapPoint, Map
 
 class Node:
@@ -6,39 +7,46 @@ class Node:
         self.point = point
         self.direction = direction
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.point, self.direction))
     
-    def __eq__(self, other):
+    def __eq__(self, other:"Node") -> bool:
         return self.point == other.point and self.direction == other.direction
 
-    def __ne__(self, other):
+    def __ne__(self, other:"Node") -> bool:
         return not (self == other)
     
-    def get_adj(self) -> List["Node"]:
+    def get_adj_with_weights(self) -> List[Tuple["Node", float]]:
         return (
-            [Node(self.point, direction) for direction in self.direction.get_neighboring()]
-            + [Node(self.point.add_relative(0, 1, self.direction), self.direction)]
+            [(Node(self.point, direction), 5) for direction in self.direction.get_neighboring()]
+            + [(Node(self.point.add_relative(0, 1, self.direction), self.direction), 1),
+               (Node(self.point.add_relative(0, -1, self.direction), self.direction), 5)]
         )
 
 class Router:
     def __init__(self, world_map:Map):
         self.world_map = world_map
 
-    def find_route_to_intresting(self, first_node:Node) -> List[Node] | None:
+    def find_best_route(self, first_node:Node) -> List[Node] | None:
+        priority_queue = {0: [first_node]}
         used_nodes = {first_node: None}
-        queue = [first_node]
-        while queue:
-            node = queue.pop(0)
+        while priority_queue:
+            lowest_value = min(priority_queue.keys())
+            equal_priority_list = priority_queue[lowest_value]
+            if len(equal_priority_list) > 1:
+                node = equal_priority_list.pop(randint(0, len(equal_priority_list) - 1))
+            else:
+                node = priority_queue.pop(lowest_value)[0]
             if self.world_map.is_interesting(node.point, node.direction):
                 break
-            for next_node in node.get_adj():
+            for next_node, extra_value in node.get_adj_with_weights():
                 if self.world_map.robot_can_be_placed(next_node.point) and next_node not in used_nodes:
                     used_nodes[next_node] = node
-                    queue.append(next_node)
+                    priority_queue[lowest_value + extra_value] = priority_queue.get(lowest_value + extra_value, [])
+                    priority_queue[lowest_value + extra_value].append(next_node)
         else:
             return None
-        route = [node]
-        while used_nodes[route[0]] is not None:
-            route.insert(0, used_nodes[route[0]])
-        return route
+        best_route = [node]
+        while used_nodes[best_route[0]] is not None:
+            best_route.insert(0, used_nodes[best_route[0]])
+        return best_route

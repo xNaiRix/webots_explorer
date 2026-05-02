@@ -139,22 +139,23 @@ class Map:
             return False
         h = [self.is_unknown(pos.add_relative(dx,dy,direction)) 
              for dx in range(-self.robot_cell_radius-2,self.robot_cell_radius+3)
-               for dy in [-self.robot_cell_radius - 1]]
+               for dy in [self.robot_cell_radius + 1]]
         h += [self.is_unknown(pos.add_relative(dx,dy,direction)) 
               for dx in [ -self.robot_cell_radius - 2,
                           -self.robot_cell_radius - 1,
                           self.robot_cell_radius + 1,
                           self.robot_cell_radius + 2
                           ]
-               for dy in range(-self.robot_cell_radius, 1)]
+               for dy in range(0, self.robot_cell_radius + 1)]
         
         h += [self.is_unknown(pos.add_relative(dx,dy,direction)) 
               for dx in range(-self.robot_cell_radius,self.robot_cell_radius+1)
-               for dy in [-self.robot_cell_radius - 2]]
+               for dy in [self.robot_cell_radius + 2]]
+
         return any(h)
     
     def print(self):
-        for i in range(self.cell_width):
+        for i in range(70, 130):
             for j in range(70,130):#self.cell_height):
                 cell = self.cells[i][j]
                 if cell.unknown:
@@ -164,6 +165,8 @@ class Map:
                 else:
                     print("#", end=" ")
             print()
+        print()
+
     def draw_map(self):
         matrix = [["?" for _ in range(self.cell_width)] for _ in range(self.cell_height)]
         for i in range(self.cell_width):

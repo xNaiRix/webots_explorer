@@ -4,7 +4,9 @@ from FSM.state import State
 from map import Direction, MapPoint, Map
 
 
-EPS = 0.01
+EPS = 0.1
+
+ROTATE_TIME = 0.1
 
 class TurnState(State):
     def __init__(self, world_map:Map, target_direction:Direction):
@@ -21,7 +23,7 @@ class TurnLeftState(TurnState):
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if not self.is_finished(x, y, theta, point, direction):
-            return (-50.0, 50.0)
+            return (-20.0, 20.0)
         return (0.0, 0.0)
 
 class TurnRightState(TurnState):
@@ -30,7 +32,7 @@ class TurnRightState(TurnState):
 
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if not self.is_finished(x, y, theta, point, direction):
-            return (50.0, -50.0)
+            return (20.0, -20.0)
         return (0.0, 0.0)
 
 def shortest_turn_state(world_map:Map, current_direction:Direction, target_direction:Direction):
