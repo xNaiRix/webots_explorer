@@ -106,6 +106,7 @@ class RobotController:
             if not result: break
         print("EEEND")
         self.map.print()
+        self.map.save_to_file()
 
     def mainloop(self, step:int, time:float):
         left_enc_pos = self.robot.left_encoder.get_value()

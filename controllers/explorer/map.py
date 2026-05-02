@@ -176,8 +176,38 @@ class Map:
                 else:
                     matrix[i][j] = "#"
         return matrix
+    
+    def save_to_file(self, filepath="../../statistics/data/map.csv"):
+        """
+        Сохраняет карту в CSV файл для последующей визуализации.
+        Формат: каждая строка содержит x,y,state (0-неизвестно,1-пусто,2-стена)
+        """
+        import csv
+        import os
         
-
+        # Создаем абсолютный путь
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        full_path = os.path.join(script_dir, filepath)
+        full_path = os.path.normpath(full_path)
+        
+        # Создаем директорию, если её нет
+        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+        
+        with open(full_path, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['x', 'y', 'state'])
+            for i in range(self.cell_width):
+                for j in range(self.cell_height):
+                    cell = self.cells[i][j]
+                    if cell.unknown:
+                        state = 0
+                    elif cell.empty:
+                        state = 1
+                    else:
+                        state = 2
+                    writer.writerow([i, j, state])
+        
+        print(f"Карта сохранена в {full_path}")
         
         
 
