@@ -95,10 +95,10 @@ class RobotController:
             (self.robot.sensors_ps[5], 1.0)
         ])
 
-    def run(self):
+    def run(self, time_period:float):
         step = 0
         start_time = self.robot.get_time()
-        while self.robot.step() and self.robot.get_time() - start_time < 12 * 300:
+        while self.robot.step() and self.robot.get_time() - start_time < time_period:
             step += 1
             time = self.robot.get_time()
 
@@ -163,4 +163,5 @@ class RobotController:
 
 if __name__ == '__main__':
     controller = RobotController()
-    controller.run()
+    time_period = 10 * 60
+    controller.run(time_period)
