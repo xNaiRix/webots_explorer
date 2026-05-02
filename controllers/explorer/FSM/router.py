@@ -59,3 +59,5 @@ class Router:
         elif start_node.direction != end_node.direction:
             value += 2
         return value
+    
+    

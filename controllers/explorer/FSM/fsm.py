@@ -1,6 +1,6 @@
 from sys import exit
 from typing import List, Tuple
-from constants import MAX_COORD_ERROR
+from constants import MAX_COORD_ERROR, MAX_GET_OUT_ATTEMPTS
 from map import Direction, MapPoint, Map
 from FSM.state import State
 from FSM.forward_state import ForwardState
@@ -12,6 +12,7 @@ class FSMHandler:
         self.world_map = world_map
         self.router = Router(self.world_map)
         self.plan: List[State] = []
+        self.get_out_attempts = 0
     
     def tick(self, x:float, y:float, theta:float, point:MapPoint, direction:Direction) -> Tuple[float, float]:
         if self.plan:
@@ -34,22 +35,28 @@ class FSMHandler:
                 route = self.router.best_route_to_intresting(Node(point, direction))
         
             if route is None:
-                return None
-            
-            index = 0
-            while index < len(route) - 1:
-                start_index = index
-                if route[index].direction == route[index + 1].direction:
-                    while index < len(route) - 1 and route[index].direction == route[index + 1].direction:
-                        index += 1
-                    state = ForwardState(self.world_map, route[index].point)
-                else:
-                    while index < len(route) - 1 and route[index].direction != route[index + 1].direction:
-                        index += 1
-                    state = shortest_turn_state(self.world_map,
-                                                route[start_index].direction,
-                                                route[index].direction)
-                self.plan.append(state)
+                if self.get_out_attempts >= MAX_GET_OUT_ATTEMPTS:
+                    return None
+                self.get_out_attempts += 1
+                self.plan = [shortest_turn_state(self.world_map, direction,
+                                                 direction.get_neighboring()[0])]
+            else:
+                index = 0
+                while index < len(route) - 1:
+                    start_index = index
+                    if route[index].direction == route[index + 1].direction:
+                        while index < len(route) - 1 and route[index].direction == route[index + 1].direction:
+                            index += 1
+                        state = ForwardState(self.world_map, route[index].point)
+                    else:
+                        while index < len(route) - 1 and route[index].direction != route[index + 1].direction:
+                            index += 1
+                        state = shortest_turn_state(self.world_map,
+                                                    route[start_index].direction,
+                                                    route[index].direction)
+                    self.plan.append(state)
+                
+                self.get_out_attempts = 0
 
         if self.plan:
             current_state = self.plan[0]
