@@ -98,7 +98,7 @@ class RobotController:
     def run(self, time_period:float):
         step = 0
         start_time = self.robot.get_time()
-        while self.robot.step() and self.robot.get_time() - start_time < time_period:
+        while self.robot.get_time() - start_time < time_period and self.robot.step():
             step += 1
             time = self.robot.get_time()
 
@@ -163,5 +163,5 @@ class RobotController:
 
 if __name__ == '__main__':
     controller = RobotController()
-    time_period = 10 * 60
+    time_period = 30 * 60
     controller.run(time_period)
